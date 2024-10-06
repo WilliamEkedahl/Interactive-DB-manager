@@ -1,44 +1,47 @@
-body{
-    background-color: #5d7a9a;;
-}
-*{
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+body{
+    background-color: #5d7a9a;
+    margin: 0;
+    padding: 0;
+}
+
 ul {
     list-style-type: none;
-
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
     background-color: #333;
     text-align: center;
     margin-bottom: 10px;
-}
-li {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-ul li {
-    display: inline-block;
 }
 
 ul li a {
     display: block;
     padding: 20px 25px;
-    color: #E0E7FC;
+    color: white;
+    text-decoration: none;
+}
+
+ul li a {
+    display: block;
+    padding: 20px 25px;
+    color: white;
     text-decoration: none;
     text-align: center;
     font-size: 20px;
 }
 
 li a {
-    display: block;
+    background-color: #333;
     color: white;
     text-align: center;
-    text-decoration: none;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    background-color: #333;
+    padding: 10px;
 }
 
 li a:hover {
@@ -49,8 +52,6 @@ li a.active {
     color: white;
 }
 li a:hover, li a.active {
-    padding-bottom: 10px;
-    padding-top: 10px;
     color: white;
 }
 
@@ -100,8 +101,8 @@ table, th, td {
 
 .grid-container-inner{
     position relative;
-    margin-top: 50vh;
-    margin-left: 50vh;
+    margin-top: 10%;
+    margin-left: 40%;
 }
 
 
