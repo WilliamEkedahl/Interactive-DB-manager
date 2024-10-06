@@ -63,7 +63,8 @@ $STUDENT_result = $conn->query($STUDENT_sql);
                     }
                 } else {
                     echo "<tr><td colspan='4'>No rows found</td></tr>";
-                } ?>
+                }
+                ?>
             </table>
         </div>
     </div>

@@ -67,7 +67,9 @@ and matching it with that for example 'index.php' if they match apply active col
                     }
                 } else {
                     echo "<tr><td colspan='3'>No rows found</td></tr>";
-                } ?>
+                }
+
+                ?>
             </table>
         </div>
         <br/>
@@ -114,9 +116,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sql_KLASSE_add = "INSERT into KLASSE VALUES ('$input_klasseKode', '$input_klassenavn', '$input_studiumkode')";
 
                 if (mysqli_query($conn, $sql_KLASSE_add)) {
-                    // Redirect to success page
-                    header("Location: success.php");
-                    exit();
                 } else {
                     echo "Error: " . mysqli_error($conn);
                 }
