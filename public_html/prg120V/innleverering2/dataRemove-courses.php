@@ -75,7 +75,7 @@ $KLASSE_result = $conn->query($KLASSE_sql);
             <p><strong>Velg en KlasseKode for og slette en klasse fra tabellen</strong></p>
             <form action="dataRemove-courses.php" method="POST" id="removeCourses" name="removeCourseForm">
                 <label for="klaseKode"><U>klasseKode</U></label> <br/>
-                <select name="input_klassekode" id="klassekode">
+                <select name="input_klasseKode" id="klassekode">
                     <?php
                     //Dynamic listbox to only include the Options that exist in the KLASSE table
                     $listBox_Sql = "SELECT klasseKode FROM KLASSE";
@@ -90,30 +90,40 @@ $KLASSE_result = $conn->query($KLASSE_sql);
                     ?>
                 </select>
                 <br/><br/>
-                <a href="dataRemove-students.php" onclick="return confirm('Are you sure you want to delete this data?');">
-                    <input type="button" value="Delete" id="deleteKLASSE"/>
-                </a>
+                    <input type="submit" value="Delete" id="deleteKLASSE" name="delete_KLASSE" onclick="return confirm('Are you sure you want to delete this data?');"/>
             </form>
         </div>
     </div>
 </div>
-<?
+<pre>
+</pre>
+<?php
 
 //Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//input data into table KLASSE
-if (isset($_POST['submit_KLASSE'])) {
-$input_klasseKode = mysqli_real_escape_string($conn, $_POST["input_klasseKode"]);
+//input data into table KLASSE'
+    if (isset($_POST['delete_KLASSE'])) {
+        $input_klasseKode = trim(mysqli_real_escape_string($conn, $_POST["input_klasseKode"]));
 
-//sql remove data from database
+        //sql remove data from database
+        $sqlDelete = "DELETE FROM KLASSE WHERE klasseKode='$input_klasseKode'";
 
-$sqlDelete = "DELETE FROM KLASSE WHERE klaseKode=()";
+        try {
+            if (mysqli_query($conn, $sqlDelete)) {
+                echo "The row '" . $input_klasseKode . "' was deleted sucessfully";
+            }
+        } catch (Exception $mysqli_sql_exception){
+                echo " Error you can not Remove the row before you have removed the Student with the same class code in the STUDENT table";
+        }
 
+    }
+}
 
-
-
+/* echo '<pre>';
+        var_dump($_POST);
+        echo '</pre>';
+*/
 ?>
-
 
 </body>
 </html>

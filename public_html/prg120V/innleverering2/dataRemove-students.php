@@ -78,8 +78,7 @@ $STUDENT_result = $conn->query($STUDENT_sql);
 
                 </select>
                 <br/><br/>
-                <a href="dataRemove-students.php" onclick="return confirm('Are you sure you want to delete this data?');">
-                    <input type="button" value="Delete" id="deleteKLASSE"/>
+                    <input type="button" value="Delete" id="deleteSTUDENT" name ="delete_STUDENT" onclick="return confirm('Are you sure you want to delete this data?');"/>
                 </a>
             </form>
         </div>
