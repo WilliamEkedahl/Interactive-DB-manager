@@ -96,7 +96,7 @@ ul li:hover ul.dropdown {
 table, th, td {
     border: 1px solid black;
 }
-.form_add-KLASSE, .form_add-STUDENT{
+form {
     border: 1px solid black;
     text-align: left;
     margin: 0;

@@ -65,10 +65,26 @@ $STUDENT_result = $conn->query($STUDENT_sql);
                     }
                 } else {
                     echo "<tr><td colspan='4'>No rows found</td></tr>";
-                } ?>
+                }
+                ?>
             </table>
         </div>
-    </div>
+        <br/>
+        <div class="form-removeStudents">
+            <p><strong>Velg ett brukernavn for og slette en student fra tabellen</strong></p>
+            <form action="dataRemove-students.php" method="POST" id="removeStudents" name="removeStudentForm">
+                <label for="brukernavn"><U>brukernavn</U></label> <br/>
+                <select name="input_klassekode" id="klassekode">
 
-</head>
-<body>
+                </select>
+                <br/><br/>
+                <a href="dataRemove-students.php" onclick="return confirm('Are you sure you want to delete this data?');">
+                    <input type="button" value="Delete" id="deleteKLASSE"/>
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

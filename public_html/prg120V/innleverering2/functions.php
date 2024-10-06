@@ -38,6 +38,21 @@ function dropdownIsActive($pageName1, $pageName2){
     return ($currentPage == $pageName1 || $currentPage == $pageName2) ? 'active' : '';
 }
 
+
+
+/*/
+//Dynamic listbox to only include the Options that exist in the KLASSE table
+$listBox_Sql = "SELECT klasseKode FROM KLASSE";
+$result = mysqli_query($conn, $listBox_Sql);
+//Options for listbox
+if ($result->num_rows > 0)
+    while ($row = $result->fetch_assoc()) {
+        echo '<option value="' . ($row['klasseKode']) . ' "> ' . ($row['klasseKode']) . '</option>';
+    } else {
+    echo '<option value="input_klasseKode">No options available</option>';
+}
+
+
 /* MORE FUNCTION THAT NEED TO BE IMPLEMENTED */
 
 

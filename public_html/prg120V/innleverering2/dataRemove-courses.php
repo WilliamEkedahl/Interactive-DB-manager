@@ -66,10 +66,54 @@ $KLASSE_result = $conn->query($KLASSE_sql);
                     }
                 } else {
                     echo "<tr><td colspan='3'>No rows found</td></tr>";
-                } ?>
+                }
+                ?>
             </table>
         </div>
+        <br/>
+        <div class="form-removeCourses">
+            <p><strong>Velg en KlasseKode for og slette en klasse fra tabellen</strong></p>
+            <form action="dataRemove-courses.php" method="POST" id="removeCourses" name="removeCourseForm">
+                <label for="klaseKode"><U>klasseKode</U></label> <br/>
+                <select name="input_klassekode" id="klassekode">
+                    <?php
+                    //Dynamic listbox to only include the Options that exist in the KLASSE table
+                    $listBox_Sql = "SELECT klasseKode FROM KLASSE";
+                    $result = mysqli_query($conn, $listBox_Sql);
+                    //Options for listbox
+                    if ($result->num_rows > 0)
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
+                        } else {
+                        echo '<option value="input_klasseKode">No options available</option>';
+                    }
+                    ?>
+                </select>
+                <br/><br/>
+                <a href="dataRemove-students.php" onclick="return confirm('Are you sure you want to delete this data?');">
+                    <input type="button" value="Delete" id="deleteKLASSE"/>
+                </a>
+            </form>
+        </div>
     </div>
+</div>
+<?
 
-</head>
-<body>
+//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//input data into table KLASSE
+if (isset($_POST['submit_KLASSE'])) {
+$input_klasseKode = mysqli_real_escape_string($conn, $_POST["input_klasseKode"]);
+
+//sql remove data from database
+
+$sqlDelete = "DELETE FROM KLASSE WHERE klaseKode=()";
+
+
+
+
+?>
+
+
+</body>
+</html>

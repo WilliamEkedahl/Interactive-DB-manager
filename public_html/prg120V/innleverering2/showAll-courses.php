@@ -62,7 +62,8 @@ $KLASSE_result = $conn->query($KLASSE_sql);
                     }
                 } else {
                     echo "<tr><td colspan='3'>No rows found</td></tr>";
-                } ?>
+                }
+                ?>
             </table>
         </div>
     </div>
