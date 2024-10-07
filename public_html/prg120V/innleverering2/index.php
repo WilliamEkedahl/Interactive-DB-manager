@@ -55,6 +55,12 @@ $STUDENT_result = $conn->query($STUDENT_sql);
 
 <div class ="grid-container-outer">
     <div class ="grid-container-inner">
+
+        <h1 style="text-align: center";>Welcome to the database manager where you can
+            <span style="font-weight: bold; text-decoration: underline;">(add, delete & filter)</span> data from the database tables
+            <span style="font-weight: bold; text-decoration: underline;">KLASSE & STUDENT
+        </h1><br/><br/>
+
         <div class="tabell" id="klasseTabell">
             <table>
                 <p> <strong> KLASSE </strong></p> <br/>
