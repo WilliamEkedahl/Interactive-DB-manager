@@ -2,8 +2,8 @@
 <html lang="no">
 <head>
     <meta name ="viewport" content ="width=device-width, initial-scale=1">
-    <meta charset="UTF-8"
-    <title></title>
+    <meta charset="UTF-8">
+    <title>Add students</title>
     <link rel ="stylesheet" href ="css/stylesheet-index.css">
 </head>
 <body>
@@ -81,7 +81,7 @@ if ($result->num_rows > 0)
     while ($row = $result->fetch_assoc()) {
         echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
     } else {
-    echo '<option value="input_klasseKode">No options available</option>';
+    echo '<option value="">No options available</option>';
 }
 ?>
                 </select>
@@ -102,25 +102,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $input_fornavn = mysqli_real_escape_string($conn, $_POST['input_fornavn']);
         $input_etternavn = mysqli_real_escape_string($conn, $_POST['input_etternavn']);
         $input_klasseKode = mysqli_real_escape_string($conn, $_POST['input_klasseKode']);
-
         //Checking if brukernavn is filled out
-        if (!$input_klasseKode) {
+        if (empty($input_klasseKode)) {
             echo "Error: klassekode er ikke fyllt ut";
+            return;
         }
         //Checking if the brukernavn is longer than 3 characters
         if (strlen($input_brukernavn) > 3) {
             echo "Error: Data not saved, brukernavn only accepts a maximum length of 3 characters";
             return;
         }
+
         //make sure the primary key is unique warning
         //prepares the SELECT query to check for primarykey integrity
         $stmt_select = $conn->prepare("SELECT * FROM STUDENT WHERE brukernavn = ?");
         //Bind the paramater (brukernavn) to the prepared statement
-
         if ($stmt_select) {
             $stmt_select->bind_param("s", $input_brukernavn);
             //Execute statement
-            $stmt_select->execute();
+            try {
+                $stmt_select->execute();
+            } catch (Exception $ex) {
+                echo "the error is caught here"
+            }
             //fetch result
             $result = $stmt_select->get_result();
 
@@ -134,12 +138,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt_insert) { //check if the prepare for insert was sucessfull
                     $stmt_insert->bind_param("ssss", $input_brukernavn, $input_fornavn, $input_etternavn, $input_klasseKode);
 
-
-                    $stmt_insert->execute();
-                    if (!$stmt_insert->execute()) {
-                        echo "Error: " . $conn->error;
-                    } else {
+                    if ($stmt_insert->execute()) {
                         echo "The row was added sucessfully!";
+                    } else {
+                     //   echo "Error: " . $stmt_insert->error;
                     }
                     //close statement
                     $stmt_insert->close();
