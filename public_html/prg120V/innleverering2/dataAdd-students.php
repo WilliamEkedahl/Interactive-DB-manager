@@ -72,18 +72,18 @@ displayData($sqlQueryData, $fields);
                 <input type="text" id="etternavn" name="input_etternavn" placeholder="Bjarvin"> <br/>
                 <label for="klasseKode">klasseKode</label> <br/>
                 <select name="input_klasseKode" id="klasseKode">
-                    <?php
-                    //Dynamic listbox to only include the Options that exist in the KLASSE table
-                    $listBox_Sql = "SELECT klasseKode FROM KLASSE";
-                    $result = mysqli_query($conn, $listBox_Sql);
-                    //Options for listbox
-                    if ($result->num_rows > 0)
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
-                        } else {
-                        echo '<option value="input_klasseKode">No options available</option>';
-                    }
-                    ?>
+<?php
+//Dynamic listbox to only include the Options that exist in the KLASSE table
+$listBox_Sql = "SELECT klasseKode FROM KLASSE";
+$result = mysqli_query($conn, $listBox_Sql);
+//Options for listbox
+if ($result->num_rows > 0)
+    while ($row = $result->fetch_assoc()) {
+        echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
+    } else {
+    echo '<option value="input_klasseKode">No options available</option>';
+}
+?>
                 </select>
                 <br/><br/>
                 <input type ="submit" value ="Add" id ="submitSTUDENT" name ="submit_STUDENT" />
@@ -95,9 +95,9 @@ displayData($sqlQueryData, $fields);
 </html>
 
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //input data into table STUDENT
-    if (isset($_POST['submit_STUDENT'])){
+    if (isset($_POST['submit_STUDENT'])) {
         $input_brukernavn = mysqli_real_escape_string($conn, $_POST['input_brukernavn']);
         $input_fornavn = mysqli_real_escape_string($conn, $_POST['input_fornavn']);
         $input_etternavn = mysqli_real_escape_string($conn, $_POST['input_etternavn']);
@@ -110,24 +110,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         //Checking if the brukernavn is longer than 3 characters
         if (strlen($input_brukernavn) > 3) {
             echo "Error: Data not saved, brukernavn only accepts a maximum length of 3 characters";
-        } else {
-            //make sure the primary key is unique warning
-            $primarykeySTUDENT = "SELECT * FROM STUDENT WHERE brukernavn = '$input_brukernavn'";
-            $result = mysqli_query($conn, $primarykeySTUDENT);
+            return;
+        }
+        //make sure the primary key is unique warning
+        //prepares the SELECT query to check for primarykey integrity
+        $stmt_select = $conn->prepare("SELECT * FROM STUDENT WHERE brukernavn = ?");
+        //Bind the paramater (brukernavn) to the prepared statement
+
+        if ($stmt_select) {
+            $stmt_select->bind_param("s", $input_brukernavn);
+            //Execute statement
+            $stmt_select->execute();
+            //fetch result
+            $result = $stmt_select->get_result();
 
             if (($result->num_rows) > 0) {
                 $tablePrimaryIntegrity = $result->fetch_assoc();
                 echo "A 'brukernavn' with '" . $tablePrimaryIntegrity['brukernavn'] . "' already exists, duplicates of the 'brukernavn' row are not allowed because its the primary key of the table.";
             } else {
-                //Everything looks good insert the student information into the table
-                $sql_STUDENT_add = "INSERT into STUDENT VALUES ('$input_brukernavn', '$input_fornavn', '$input_etternavn', '$input_klasseKode')";
+                //Everything looks good insert the student information into the table "ssss" represents 4 strings
+                $stmt_insert = $conn->prepare("INSERT into STUDENT (brukernavn, fornavn, etternavn, klasseKode) VALUES (?,?,?,?)");
 
-                if (mysqli_query($conn, $sql_STUDENT_add)) {
-                    echo "The row was added sucessfully!";
+                if ($stmt_insert) { //check if the prepare for insert was sucessfull
+                    $stmt_insert->bind_param("ssss", $input_brukernavn, $input_fornavn, $input_etternavn, $input_klasseKode);
+
+
+                    $stmt_insert->execute();
+                    if (!$stmt_insert->execute()) {
+                        echo "Error: " . $conn->error;
+                    } else {
+                        echo "The row was added sucessfully!";
+                    }
+                    //close statement
+                    $stmt_insert->close();
                 } else {
-                    echo "Error: " . mysqli_error($conn);
+                    // Prepare failed for INSERT
+                    echo "Error preparing statement for INSERT: " . $conn->error;
                 }
             }
+            //close the select statement
+            $stmt_select->close();
         }
     }
 }

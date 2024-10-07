@@ -68,7 +68,7 @@ $fields = ['klasseKode', 'klassenavn', 'studiumKode'];
 
 displayData($sqlQueryData, $fields);
 ?>
-            </table>
+        </table>
         </div>
         <br/>
         <div class="tabell" id="StudentTabell">
@@ -91,8 +91,7 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
 //display data in the array untill the array is empty
 displayData($sqlQueryData, $fields);
 ?>
-            </table>
-        </div>
+        </table>
         <br/>
         </div>
     </div>

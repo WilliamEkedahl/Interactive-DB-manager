@@ -12,11 +12,10 @@
 global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
+
+/* Using basename and $_SERVER [PHP_SELF] php self is the filemane of the currently executed script compared to a predetermined name manually
+and matching it with that for example 'index.php' if they match apply active color in css by echoing that it is active.> */
 ?>
-
-<comment Using basename and $_SERVER [PHP_SELF] php self is the filemane of the currently executed script compared to a predetermined name manually
-and matching it with that for example 'index.php' if they match apply active color in css by echoing that it is active.> </comment>
-
 <nav class="mainNav">
     <ul id="mainNav-list">
         <li><a href="index.php" class="<?php echo isActive ('index.php');?>" >Main Menu</a></li>

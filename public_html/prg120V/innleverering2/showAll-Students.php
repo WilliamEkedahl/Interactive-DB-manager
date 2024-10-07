@@ -51,10 +51,10 @@ require_once 'functions.php';
 //sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
 $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
 
-    //define the fields to be displayed in an array
+//define the fields to be displayed in an array
 $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
 
-    //display data in the array untill the array is empty
+//display data in the array untill the array is empty
 displayData($sqlQueryData, $fields);
 ?>
             </table>
