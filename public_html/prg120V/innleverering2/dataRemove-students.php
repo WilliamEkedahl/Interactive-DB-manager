@@ -65,12 +65,9 @@ displayData($sqlQueryData, $fields);
             <p><strong>Velg ett brukernavn for og slette en student fra tabellen</strong></p>
             <form action="dataRemove-students.php" method="POST" id="removeStudents" name="removeStudentForm">
                 <label for="brukernavn"><U>brukernavn</U></label> <br/>
-                <select name="input_klassekode" id="klassekode">
-
-                </select>
+                <select name="input_klassekode" id="klassekode"> </select>
                 <br/><br/>
                     <input type="button" value="Delete" id="deleteSTUDENT" name ="delete_STUDENT" onclick="return confirm('Are you sure you want to delete this data?');"/>
-                </a>
             </form>
         </div>
     </div>

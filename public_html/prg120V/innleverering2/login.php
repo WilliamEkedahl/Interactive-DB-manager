@@ -27,15 +27,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="no">
 <head>
     <title>Login</title>
 </head>
 <body>
 <h2>Login</h2>
 <form method="POST" action="login.php">
-    Username: <input type="text" name="username" required><br>
-    Password: <input type="password" name="password" required><br>
+    <label>
+        Username:
+        <input type="text" name="username" required>
+    </label><br>
+    <label>
+        Password:
+        <input type="password" name="password" required>
+    </label><br>
     <button type="submit">Login</button>
 
     <h1> Now you cant fill in junk data into my database anymore :P</h1>

@@ -3,7 +3,7 @@
 header("Refresh: 1; url=dataAdd-students.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="no">
 <head>
     <title>Success</title>
 </head>

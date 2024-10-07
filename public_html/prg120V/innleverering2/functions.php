@@ -73,9 +73,25 @@ function displayData($sqlQueryData, $fields){
     }
 }
 
+/*Explained in php in 24hours by mat zandstra p. 101, 102
+$tag is the tag the message should be displayed in, $txt is the message or text that is visitable and $func
+is an optional function for styling in this case making the (primary key) underlined.
 
+function createTable($tag, $txt, $func=""){
+    if (function_exists($func))
+        $txt =  $func($txt);
+    return "<$tag>$txt</$tag>"
+}
+                <tr>
+                    <th><u>brukernavn</u></th>
+                    <th>fornavn</th>
+                    <th>etternavn</th>
+                    <th>klasseKode</th>
+                </tr>
 /*/
+
 //Dynamic listbox to only include the Options that exist in the KLASSE table USED 3x
+/*
 $listBox_Sql = "SELECT klasseKode FROM KLASSE";
 $result = mysqli_query($conn, $listBox_Sql);
 //Options for listbox
@@ -85,7 +101,7 @@ if ($result->num_rows > 0)
     } else {
     echo '<option value="input_klasseKode">No options available</option>';
 }
-
+*/
 
 /* MORE FUNCTION THAT NEED TO BE IMPLEMENTED */
 
@@ -95,8 +111,30 @@ if (isset($_POST['submit_STUDENT'])) { USED 4x
     $input_fornavn = mysqli_real_escape_string($conn, $_POST['input_fornavn']);
     $input_etternavn = mysqli_real_escape_string($conn, $_POST['input_etternavn']);
     $input_klasseKode = mysqli_real_escape_string($conn, $_POST['input_klasseKode']);
-
 */
+//4
+/* $sqlQueryData =sqlquerySelectAll($conn,'STUDENT' //where 'brukernavn'); */
+
+/*if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    //input data into table STUDENT
+    if (isset($_POST['submit_STUDENT'])){
+        $input_brukernavn = mysqli_real_escape_string($conn, $_POST['input_brukernavn']);
+        $input_fornavn = mysqli_real_escape_string($conn, $_POST['input_fornavn']);
+        $input_etternavn = mysqli_real_escape_string($conn, $_POST['input_etternavn']);
+        $input_klasseKode = mysqli_real_escape_string($conn, $_POST['input_klasseKode']);
+
+        //Checking if brukernavn is filled out
+        if (!$input_klasseKode) {
+            echo "Error: klassekode er ikke fyllt ut";
+        }
+        //Checking if the brukernavn is longer than 3 characters
+        if (strlen($input_brukernavn) > 3) {
+            echo "Error: Data not saved, brukernavn only accepts a maximum length of 3 characters";
+        } else {
+            //make sure the primary key is unique warning
+            $primarykeySTUDENT = "SELECT * FROM STUDENT WHERE brukernavn = '$input_brukernavn'";
+            $result = mysqli_query($conn, $primarykeySTUDENT);
+            */
 ?>
 
 
