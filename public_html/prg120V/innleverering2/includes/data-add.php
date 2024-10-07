@@ -1,7 +1,7 @@
 <?php                                     /* ***TODO ADD AJAX SHIFT TO SUCESS PAGE TO UPDATE AUTOMATICALLY AND NOT HAVE TO SEND 2 REQUESTS */
 global $conn;
-require ("includes/dbh.inc.php");
-require ("index.php");
+require("includes/dbh.inc.php");
+require("index.php");
 
 //Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
