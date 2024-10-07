@@ -1,9 +1,5 @@
 <?php
-session_start();                                   /* TODO MAKE A NAV MENU, ON THE TOP / SIDE,
-                                                                  +MAKE A PAGE FOR KLASSE ONE FOR STUDENT
-                                                       + 2 MORE THAT ONLY SHOW ALL STUDENT & ALL KLASSE  IN A BIG TABLE OVER THE ENTIRE SCREEN
-                                                                 +FIX WARNING "input_klasseKode Undefined array key
-                                                                 + FIGURE OUT CLOSING / OPENING DB CONNECTION*/
+session_start();                                   /*, TODO FIX DELETE STUDENT + FIGURE OUT CLOSING / OPENING DB CONNECTION*/
 //check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -84,21 +80,6 @@ $STUDENT_result = $conn->query($STUDENT_sql);
             </table>
         </div>
         <br/>
-        <div class="form_add-KLASSE">
-            <p><strong>Add rows into KLASSE table</strong></p>
-            <form action="data-add.php" method="POST" id="klasse-add" name="klasseform">
-                <label for="klasseKode"><u>klasseKode</u></label> <br/>
-                <input type="text" id="klasseKode" name="input_klasseKode" placeholder="IT1" required> <br/>
-                <label for="klassenavn">klassenavn</label> <br/>
-                <input type="text" id="klassenavn"  name="input_klassenavn" placeholder="IT og ledelse 1. år"> <br/>
-                <label for="studiumKode">studiumKode</label> <br/>
-                <input type="text" id="studiumKode" name="input_studiumkode" placeholder="ITLED"> <br/> <br/>
-                <input type ="submit" value ="Add" id ="submitKLASSE" name ="submit_KLASSE" />
-                <a href="data-remove.php?type=KLASSE&klasseKode=<?php echo urlencode($input_klasseKode); ?>" onclick="return confirm('Are you sure you want to delete this data?');">
-                    <input type="button" value="Delete" id="deleteKLASSE"/>
-                </a>
-            </form>
-        </div>
         <div class="tabell" id="StudentTabell">
             <table>
                 <p> <strong> STUDENT </strong> </p> <br/>
@@ -125,36 +106,6 @@ $STUDENT_result = $conn->query($STUDENT_sql);
             </table>
         </div>
         <br/>
-        <div class="form_add-STUDENT">
-            <p><strong>Add rows into STUDENT table</strong></p>
-            <form action="data-add.php" method="POST" id="klasse-add" name="klasseform">
-                <label for="brukernavn"><u>brukernavn</u></label> <br/>
-                <input type="text" id="brukernavn" name="input_brukernavn" placeholder="gb" required> <br/>
-                <label for="fornavn">fornavn</label> <br/>
-                <input type="text" id="fornavn"  name="input_fornavn" placeholder="Geir"> <br/>
-                <label for="etternavn">etternavn</label> <br/>
-                <input type="text" id="etternavn" name="input_etternavn" placeholder="Bjarvin"> <br/>
-                <label for="klasseKode">klasseKode</label> <br/>
-                <select name="input_klasseKode" id="klasseKode">
-                    <?php
-                    //Dynamic listbox to only include the Options that exist in the KLASSE table
-                    $listBox_Sql = "SELECT klasseKode FROM KLASSE";
-                    $result = mysqli_query($conn, $listBox_Sql);
-                    //Options for listbox
-                    if ($result->num_rows > 0)
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
-                        } else {
-                        echo '<option value="">No options available</option>';
-                    }
-                    ?>
-                </select>
-                <br/><br/>
-                <input type ="submit" value ="Add" id ="submitSTUDENT" name ="submit_STUDENT" />
-                <a href="data-remove.php?type=STUDENT&brukernavn=<?php echo urlencode($input_brukernavn); ?>" onclick="return confirm('Are you sure you want to delete this data?');">
-                    <input type="button" value="Delete" id="deleteSTUDENT"/>
-                </a>
-            </form>
         </div>
     </div>
 </div>
