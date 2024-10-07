@@ -63,9 +63,9 @@ displayData($sqlQueryData, $fields);
         <br/>
         <div class="form-removeStudents">
             <p><strong>Velg ett brukernavn for og slette en student fra tabellen</strong></p>
-            <form action="dataRemove-students.php" method="POST" id="removeStudents" name="removeStudentForm">
+            <form method="POST"  action="dataRemove-students.php"  id="removeStudents" name="removeStudentForm">
                 <label for="brukernavn"><U>brukernavn</U></label> <br/>
-                <select name="input_brukernavn" id="brukernavn">
+                <select name="input_brukernavn" id="brukernavn" required>
                     <?php
                     //Dynamic listbox to only include the Options that exist in the KLASSE table
                     $listBox_Sql = "SELECT brukernavn FROM STUDENT";
@@ -78,41 +78,39 @@ displayData($sqlQueryData, $fields);
                         echo '<option value="input_brukernavn">No options available</option>';
                     }
                     ?>
-
                 </select>
                 <br/><br/>
-                    <input type="button" value="Delete" id="delete_STUDENT" name ="delete_STUDENT" onclick="return confirm('Are you sure you want to delete this data?');"/>
+                    <input type="submit" value="Delete" id="deleteSTUDENT" name ="delete_STUDENT" <?php /* onclick="return confirm('Are you sure you want to delete this data?') */?>;"/>
             </form>
         </div>
     </div>
 </div>
 <?php
+// Check if the connection is valid
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
 
 //Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //input data into table KLASSE'
-    var_dump($_POST);
     if (isset($_POST['delete_STUDENT'])) {
+
         $input_brukernavn = trim(mysqli_real_escape_string($conn, $_POST["input_brukernavn"]));
-        var_dump($_input_brukernavn);
+
         //sql remove data from database
         $sqlDelete = "DELETE FROM STUDENT WHERE brukernavn='$input_brukernavn'";
-        print $sqlDelete;
 
-        try {
-            if (mysqli_query($conn, $sqlDelete)) {
-                echo "The row '" . $input_brukernavn . "' was deleted sucessfully";
-            }
-        } catch (Exception $mysqli_sql_exception){
-            echo "Error" . mysqli_error($conn);
+        // Execute the query
+        if (mysqli_query($conn, $sqlDelete)) {
+            echo "The row '" . $input_brukernavn . "' was deleted successfully!<br>";
+        } else {
+            // Print the error if query execution fails
+            echo "Error: " . mysqli_error($conn) . "<br>";
         }
     }
-}
+} 
 ?>
-
-
-
-
-
 </body>
 </html>

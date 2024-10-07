@@ -60,9 +60,9 @@ displayData($sqlQueryData, $fields);
         <br/>
         <div class="form-removeCourses">
             <p><strong>Velg en KlasseKode for og slette en klasse fra tabellen</strong></p>
-            <form action="dataRemove-courses.php" method="POST" id="removeCourses" name="removeCourseForm">
+            <form  method="POST" action="dataRemove-courses.php"  id="removeCourses" name="removeCourseForm">
                 <label for="klaseKode"><U>klasseKode</U></label> <br/>
-                <select name="input_klasseKode" id="klassekode">
+                <select name="input_klasseKode" id="klassekode" required>
 <?php
 //Dynamic listbox to only include the Options that exist in the KLASSE table
 $listBox_Sql = "SELECT klasseKode FROM KLASSE";
@@ -85,7 +85,6 @@ if ($result->num_rows > 0)
 <pre>
 </pre>
 <?php
-
 //Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //input data into table KLASSE'
@@ -102,10 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (Exception $mysqli_sql_exception){
                 echo " Error you can not Remove the row before you have removed the Student with the same class code in the STUDENT table";
         }
-
     }
 }
 ?>
-
 </body>
 </html>
