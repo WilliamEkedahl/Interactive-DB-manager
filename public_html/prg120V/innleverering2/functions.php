@@ -41,7 +41,7 @@ function dropdownIsActive($pageName1, $pageName2){
 
 
 /*/
-//Dynamic listbox to only include the Options that exist in the KLASSE table
+//Dynamic listbox to only include the Options that exist in the KLASSE table USED 3x
 $listBox_Sql = "SELECT klasseKode FROM KLASSE";
 $result = mysqli_query($conn, $listBox_Sql);
 //Options for listbox
@@ -56,7 +56,7 @@ if ($result->num_rows > 0)
 /* MORE FUNCTION THAT NEED TO BE IMPLEMENTED */
 
 
-/* if ($KLASSE_result->num_rows > 0) {
+/* if ($KLASSE_result->num_rows > 0) { USED 6X!
     while($row = $KLASSE_result->fetch_assoc()) {
         echo "<tr>
                                  <td>" . $row["klasseKode"] . "</td>
@@ -67,13 +67,17 @@ if ($result->num_rows > 0)
 } else {
     echo "<tr><td colspan='3'>No rows found</td></tr>";
 }
-
-
-2 ONE AND 2 WORK TOGETHER would be best with one function for both
+*/
+/*
+2 ONE AND 2 WORK TOGETHER would be best with one function for both USED 8x!
 $STUDENT_sql ="SELECT * FROM STUDENT";
 $STUDENT_result = $conn->query($STUDENT_sql);
-
-function sqlquerySelectAll($conn, $from){   NOT FINISHED KEEP WORKING ON THIS
+*/
+function sqlquerySelectAll($conn, $from){
+    $allowedTables = ['KLASSE', 'STUDENT'];
+    if (!in_array($from, $allowedTables)) {
+        die("Invalid table specified");
+    }
     $sql = "SELECT * FROM $from";
     $result = $conn->query($sql);
 
@@ -81,56 +85,20 @@ function sqlquerySelectAll($conn, $from){   NOT FINISHED KEEP WORKING ON THIS
         die ("Query from database failed" . $conn->error);
     }
 
-    return $result;
+    return $result->fetchAll(MYSQLI_ASSOC);
 }
 
-3
 
-if (isset($_POST['submit_STUDENT'])) {
+/*
+if (isset($_POST['submit_STUDENT'])) { USED 4x
     $input_brukernavn = mysqli_real_escape_string($conn, $_POST['input_brukernavn']);
     $input_fornavn = mysqli_real_escape_string($conn, $_POST['input_fornavn']);
     $input_etternavn = mysqli_real_escape_string($conn, $_POST['input_etternavn']);
     $input_klasseKode = mysqli_real_escape_string($conn, $_POST['input_klasseKode']);
 
-    //Checking if brukernavn is filled out
-    if (!$input_klasseKode){
-        echo "Error: klassekode er ikke fyllt ut";
-    }
-    //Checking if the brukernavn is longer than 3 characters
-    if (strlen($input_brukernavn) > 3) {
-        echo "Error: Data not saved, brukernavn only accepts a maximum length of 3 characters";
-    } else {
-        //make sure the primary key is unique warning
-        $primarykeySTUDENT = "SELECT * FROM STUDENT WHERE brukernavn = '$input_brukernavn'";
-        $result = mysqli_query($conn, $primarykeySTUDENT);
 
-        if (($result->num_rows) > 0) {
-            $tablePrimaryIntegrity = $result->fetch_assoc();
-            echo "A 'brukernavn' with '" . $tablePrimaryIntegrity['brukernavn'] . "' already exists, duplicates of the 'brukernavn' row are not allowed because its the primary key of the table.";
-        } else {
-            //Everything looks good insert the student information into the table
-            $sql_STUDENT_add = "INSERT into STUDENT VALUES ('$input_brukernavn', '$input_fornavn', '$input_etternavn', '$input_klasseKode')";
-
-            if (mysqli_query($conn, $sql_STUDENT_add)) {
-                echo "The row was added sucessfully!";
-            } else {
-                echo "Error: " .mysqli_error($conn);
-            }
-        }
-    }
-}
 4
 
-//Dynamic listbox to only include the Options that exist in the KLASSE table
-$listBox_Sql = "SELECT klasseKode FROM KLASSE";
-$result = mysqli_query($conn, $listBox_Sql);
-//Options for listbox
-if ($result->num_rows > 0)
-    while ($row = $result->fetch_assoc()) {
-        echo '<option value="' . ($row['klasseKode']) . ' "> ' . ($row['klasseKode']) . '</option>';
-    } else {
-    echo '<option value="input_klasseKode">No options available</option>';
-}
 */
 ?>
 
