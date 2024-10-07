@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 $stmt_select->execute();
             } catch (Exception $ex) {
-                echo "the error is caught here"
+                echo "the error is caught here";
             }
             //fetch result
             $result = $stmt_select->get_result();
