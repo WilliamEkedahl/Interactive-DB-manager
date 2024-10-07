@@ -11,10 +11,6 @@
 global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
-
-//sql query data from table klasse
-$KLASSE_sql = "SELECT * FROM KLASSE";
-$KLASSE_result = $conn->query($KLASSE_sql);
 ?>
 
 <nav class="mainNav">
@@ -50,20 +46,13 @@ $KLASSE_result = $conn->query($KLASSE_sql);
                     <th>studiumKode</th>
                 </tr>
 
-                <?php
-                //display data in a loop untill there is no more data to display (rows = 0)
-                if ($KLASSE_result->num_rows > 0) {
-                    while($row = $KLASSE_result->fetch_assoc()) {
-                        echo "<tr>
-                                 <td>" . $row["klasseKode"] . "</td>
-                                 <td>" . $row["klassenavn"] . "</td>
-                                 <td>" . $row["studiumKode"] . "</td>
-                            </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>No rows found</td></tr>";
-                }
-                ?>
+<?php
+$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
+
+$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
+
+displayData($sqlQueryData, $fields);
+?>
             </table>
         </div>
     </div>

@@ -13,11 +13,6 @@ global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
 ?>
-<?php
-//sql query data from table student
-$STUDENT_sql ="SELECT * FROM STUDENT";
-$STUDENT_result = $conn->query($STUDENT_sql);
-?>
 
 <nav class="mainNav">
     <ul id="mainNav-list">
@@ -52,21 +47,17 @@ $STUDENT_result = $conn->query($STUDENT_sql);
                     <th>etternavn</th>
                     <th>klasseKode</th>
                 </tr>
-                <?php
-                //display data in a loop untill there is no more data to display (rows = 0)
-                if ($STUDENT_result->num_rows > 0) {
-                    while($row = $STUDENT_result->fetch_assoc()) {
-                        echo "<tr>
-                                         <td>" . $row["brukernavn"] . "</td>
-                                         <td>" . $row["fornavn"] . "</td>
-                                         <td>" . $row["etternavn"] . "</td>
-                                         <td>" . $row["klasseKode"] . "</td>
-                                    </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='4'>No rows found</td></tr>";
-                }
-                ?>
+<?php
+//described in functions.php
+//sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
+$sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
+
+//define the fields to be displayed in an array
+$fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
+
+//display data in the array untill the array is empty
+displayData($sqlQueryData, $fields);
+?>
             </table>
         </div>
         <br/>

@@ -12,11 +12,6 @@
 global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
-
-//sql query data from table klasse
-$KLASSE_sql = "SELECT * FROM KLASSE";
-$KLASSE_result = $conn->query($KLASSE_sql);
-
 ?>
 
 <comment Using basename and $_SERVER [PHP_SELF] php self is the filemane of the currently executed script compared to a predetermined name manually
@@ -54,22 +49,14 @@ and matching it with that for example 'index.php' if they match apply active col
                     <th>klassenavn</th>
                     <th>studiumKode</th>
                 </tr>
+<?php
+//described in functions.php
+$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
 
-                <?php
-                //display data in a loop untill there is no more data to display (rows = 0)
-                if ($KLASSE_result->num_rows > 0) {
-                    while($row = $KLASSE_result->fetch_assoc()) {
-                        echo "<tr>
-                                 <td>" . $row["klasseKode"] . "</td>
-                                 <td>" . $row["klassenavn"] . "</td>
-                                 <td>" . $row["studiumKode"] . "</td>
-                            </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>No rows found</td></tr>";
-                }
+$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
 
-                ?>
+displayData($sqlQueryData, $fields);
+?>
             </table>
         </div>
         <br/>
