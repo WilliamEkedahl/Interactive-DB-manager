@@ -2,8 +2,8 @@
 <html lang="no">
 <head>
     <meta name ="viewport" content ="width=device-width, initial-scale=1">
-    <meta charset="UTF-8"
-    <title></title>
+    <meta charset="UTF-8">
+    <title>show All courses</title>
     <link rel ="stylesheet" href ="css/Stylesheet-showAll.css">
 </head>
 <body>
