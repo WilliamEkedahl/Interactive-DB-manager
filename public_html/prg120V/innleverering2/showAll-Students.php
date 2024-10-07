@@ -13,8 +13,7 @@ require ("includes/dbh.inc.php");
 require_once 'functions.php';
 
 //sql query data from table student
-$STUDENT_sql ="SELECT * FROM STUDENT";
-$STUDENT_result = $conn->query($STUDENT_sql);
+sqlquerySelectAll($conn, 'STUDENT');
 ?>
 
 <nav class="mainNav">
@@ -51,6 +50,9 @@ $STUDENT_result = $conn->query($STUDENT_sql);
                     <th>klasseKode</th>
                 </tr>
                 <?php
+                //call function to get data from the STUDENT table
+                $STUDENT_result = sqlquerySelectAll($conn, 'STUDENT');
+
                 //display data in a loop untill there is no more data to display (rows = 0)
                 if ($STUDENT_result->num_rows > 0) {
                     while($row = $STUDENT_result->fetch_assoc()) {
