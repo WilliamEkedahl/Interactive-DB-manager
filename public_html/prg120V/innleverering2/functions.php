@@ -39,11 +39,12 @@ function dropdownIsActive($pageName1, $pageName2){
 }
 
 function sqlquerySelectAll($conn, $from) {
-    $sql = "SELECT * FROM $from";
+    global $messages;
+    $sql = "SELECT * FROM $from ";
     $result = $conn->query($sql);
 
     if (!$result) {
-        echo "Query Error: " . $conn->error;
+        $messages[] = "Query Error: " . $conn->error;
         return []; // Return an empty array
     }
 
