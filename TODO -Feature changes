@@ -1,0 +1,11 @@
+Everything is at a working stage now: 
+
+1. Fix so that different messages give different colors Success messages = green and error messages = red currently only working for dataRemove-courses.php I don't know why lol.
+2. Convert everything to use prepared statements
+3. Make the error handling more consistent and better.
+4. Improve the readability by making more functions, with priority being a function for the dynamic list boxes and then a function for removing data from the database + adding data to the database with error handling. 
+4. Make the login screen safer + look better (styled with CSS).
+5. Add Ajax real-time elements
+6. Complete the logout screen.
+7. Add more SQL search functions like sorting and more customized search 
+8. Make a SQL search box where you can write custom SQL searches. 
