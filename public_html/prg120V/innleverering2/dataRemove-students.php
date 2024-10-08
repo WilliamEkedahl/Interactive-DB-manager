@@ -4,7 +4,7 @@
     <meta name ="viewport" content ="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Remove students</title>
-    <link rel ="stylesheet" href ="css/stylesheet-index.css">
+    <link rel ="stylesheet" href ="css/stylesheet-update.css">
 </head>
 <body>
 
@@ -105,12 +105,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute the query
         if (mysqli_query($conn, $sqlDelete)) {
             echo "The row '" . $input_brukernavn . "' was deleted successfully!<br>";
+            //Update the table by running the functions again
+            $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
+            //define the fields to be displayed in an array
+            $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
+            //display data in the array untill the array is empty
+            displayData($sqlQueryData, $fields);
+
         } else {
             // Print the error if query execution fails
             echo "Error: " . mysqli_error($conn) . "<br>";
         }
     }
-} 
+}
 ?>
 </body>
 </html>

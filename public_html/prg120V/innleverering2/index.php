@@ -1,5 +1,5 @@
 <?php
-session_start();                                   /*,TODO  MAKE IT SO THAT THE PAGES / TD REFRESHES AUTOMATICALLY + FIX DELETE STUDENT + FIGURE OUT CLOSING / OPENING DB CONNECTION*/
+session_start();                                   /*,TODO  MAKE IT SO THAT THE PAGES / TD REFRESHES AUTOMATICALLY + FIGURE OUT CLOSING / OPENING DB CONNECTION +AJAX + make it so that brukernavn is given automatically based on your name*/
 //check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
     <meta name ="viewport" content ="width=device-width, initial-scale=1">
     <meta charset="UTF-8"
     <title></title>
-    <link rel ="stylesheet" href ="css/stylesheet-index.css">
+    <link rel ="stylesheet" href ="css/stylesheet-update.css">
 </head>
 <body>
 <?php

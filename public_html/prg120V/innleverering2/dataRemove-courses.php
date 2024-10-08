@@ -4,7 +4,7 @@
     <meta name ="viewport" content ="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Remove courses</title>
-    <link rel ="stylesheet" href ="css/stylesheet-index.css">
+    <link rel ="stylesheet" href ="css/stylesheet-update.css">
 </head>
 <body>
 
@@ -77,7 +77,7 @@ if ($result->num_rows > 0)
 ?>
                 </select>
                 <br/><br/>
-                    <input type="submit" value="Delete" id="deleteKLASSE" name="delete_KLASSE" onclick="return confirm('Are you sure you want to delete this data?');"/>
+                    <input type="submit" value="Delete" id="deleteKLASSE" name="delete_KLASSE" <?php /* onclick="return confirm('Are you sure you want to delete this data?') */?>;"/>
             </form>
         </div>
     </div>
