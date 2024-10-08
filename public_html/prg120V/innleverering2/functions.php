@@ -38,19 +38,42 @@ function dropdownIsActive($pageName1, $pageName2){
     return ($currentPage == $pageName1 || $currentPage == $pageName2) ? 'active' : '';
 }
 
-function sqlquerySelectAll($conn, $from) {
+function sqlquerySelectAll($conn, $from){
     global $messages;
-    $sql = "SELECT * FROM $from ";
-    $result = $conn->query($sql);
 
-    if (!$result) {
-        $messages[] = "Query Error: " . $conn->error;
-        return []; // Return an empty array
+    //whitelist of allowed tables to prevent SQL injection risks
+    $allowedTables = ['STUDENT', 'KLASSE'];
+
+    //validation of table names
+    if (!in_array($from, $allowedTables)) {
+        $messages[] = "Invalid table name provided.";
+        return;
     }
+    //prepare query
+    $sql = "SELECT * FROM $from";
+    //prepare prepared statement
+    if ($stmt_select = $conn->prepare($sql)) {
+        //Execute statement
+        if ($stmt_select->execute()) {
+            // fetch result
+            $result = $stmt_select->get_result();
 
-    // fetch the data as an associative array
-    return $result->fetch_all(MYSQLI_ASSOC);
+            //fetch the results in an associative array
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+
+            //close statement
+            $stmt_select->close();
+
+            return $data;
+        } else {
+            $messages[] = "Error executing query: " . $conn->error;
+        }
+    } else {
+        $messages[] = "Error preparing query: " . $conn->error;
+    }
 }
+
+
 
 //eco the creating and the closing of the table and then loop through and echo the data in between with closing brackets for each row / loop through
 //$fields as $field - loops through the array $fields and saves each passthrough to the value $field

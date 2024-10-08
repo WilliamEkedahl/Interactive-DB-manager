@@ -58,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
+}
 // Fetch the updated data
 $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
 // Define the fields to be displayed in an array
@@ -143,5 +144,3 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
 </div>
 </body>
 </html>
-
-
