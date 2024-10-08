@@ -58,24 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
-    // Handling delete operation
-    if (isset($_POST['delete_STUDENT'])) {
-        $input_brukernavn = mysqli_real_escape_string($conn, $_POST["input_brukernavn"]);
-
-        // SQL remove data from database
-        $sqlDelete = "DELETE FROM STUDENT WHERE brukernavn='$input_brukernavn'";
-
-        try {
-            if (mysqli_query($conn, $sqlDelete)) {
-                $messages[] = "The row '" . htmlspecialchars($input_brukernavn) . "' was deleted successfully!";
-            }
-        } catch (Exception $mysqli_sql_exception) {
-            $messages[] = "Error: remove failed, the brukernavn is already removed.";
-        }
-    }
-}
-
 // Fetch the updated data
 $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
 // Define the fields to be displayed in an array
