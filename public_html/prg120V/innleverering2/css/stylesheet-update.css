@@ -124,5 +124,30 @@ form {
     box-shadow: 1px 1px 2px;
 }
 
+#sentmessage {
+    margin-top: auto;
+    border-radius: 5px;
+    border: 1px solid black;
+    text-align: left;
+}
+
+#printmessages {
+    margin: 2px 0;
+    border-radius: 3px;
+    display:flex;
+    list-style-type: none;
+    padding: 0;
+    margin-top 30px;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
 
 
