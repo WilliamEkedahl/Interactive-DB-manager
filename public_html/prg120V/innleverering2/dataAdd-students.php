@@ -115,10 +115,7 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
                     <th>etternavn</th>
                     <th>klasseKode</th>
                 </tr>
-                <?php
-                // Display the data inside the table
-                displayData($sqlQueryData, $fields);
-                ?>
+                <?php displayData($sqlQueryData, $fields); // Display the data inside the table?>
             </table>
         </div>
         <br/>
@@ -152,7 +149,7 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
                 <?php if (!empty($messages)): ?>
                     <ul>
                         <?php foreach ($messages as $message): ?>
-                            <li id="sentmessage" class="<?php echo strpos($message, 'Error') === 0 ? 'error' : 'success'; ?>">
+                            <li id="sentmessage" class="<?php echo strpos($message, 'Error') == 0 ? 'success' : 'error'; ?>">
                                 <?php echo htmlspecialchars($message); ?>
                             </li>
                         <?php endforeach; ?>

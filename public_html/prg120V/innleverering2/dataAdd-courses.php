@@ -15,6 +15,47 @@ require_once 'functions.php';
 
 /* Using basename and $_SERVER [PHP_SELF] php self is the filemane of the currently executed script compared to a predetermined name manually
 and matching it with that for example 'index.php' if they match apply active color in css by echoing that it is active.> */
+// Variable to store messages
+$messages = [];
+//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //input data into table KLASSE
+    if (isset($_POST['submit_KLASSE'])) {
+        $input_klasseKode = mysqli_real_escape_string($conn, $_POST["input_klasseKode"]);
+        $input_klassenavn = mysqli_real_escape_string($conn, $_POST["input_klassenavn"]);
+        $input_studiumkode = mysqli_real_escape_string($conn, $_POST["input_studiumkode"]);
+
+        if (!$input_klasseKode) {
+            $messages[] = "Error: KlasseKode is not filled out";
+        }
+        // Check if the klasseKode is longer than 3 character if TRUE print Error
+        if (strlen($input_klasseKode) > 3) {
+            $messages[] = "Error: Data not saved, KlasseKode only accepts a maximum length of 3 characters";
+        } else {
+            //make sure the primary key is unique
+            //Query the database with sql to check all values that matches the values of $input_klassekode. to check for duplictes.
+            $primarykeyKLASSE = "SELECT * FROM KLASSE WHERE klasseKode = '$input_klasseKode'";
+            $result = mysqli_query($conn, $primarykeyKLASSE);
+
+            if (($result->num_rows) > 0) {
+                $rowPrimaryIntegrity = $result->fetch_assoc(); //grabs the row and stores it in a associative array.
+                $messages[] = "Error: A klasseKode with '" . $rowPrimaryIntegrity['klasseKode'] . "' already exists, duplicates of the klasseKode row are not allowed because its the primary key of the table.";
+            } else {
+                $sql_KLASSE_add = "INSERT into KLASSE VALUES ('$input_klasseKode', '$input_klassenavn', '$input_studiumkode')";
+
+                if (mysqli_query($conn, $sql_KLASSE_add)) {
+                    $messages[] = "The row '". $input_klasseKode ."' was added successfully!";
+                } else {
+                    $messages[] = "Error : " . mysqli_error($conn);
+                }
+            }
+        }
+    }
+}
+//described in functions.php
+$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
+
+$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
 ?>
 <nav class="mainNav">
     <ul id="mainNav-list">
@@ -48,14 +89,7 @@ and matching it with that for example 'index.php' if they match apply active col
                     <th>klassenavn</th>
                     <th>studiumKode</th>
                 </tr>
-<?php
-//described in functions.php
-$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
-
-$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
-
-displayData($sqlQueryData, $fields);
-?>
+                <?php displayData($sqlQueryData, $fields); // Display the data inside the table?>
             </table>
         </div>
         <br/>
@@ -70,46 +104,21 @@ displayData($sqlQueryData, $fields);
                 <input type="text" id="studiumKode" name="input_studiumkode" placeholder="ITLED"> <br/> <br/>
                 <input type ="submit" value ="Add" id ="submitKLASSE" name ="submit_KLASSE" />
             </form>
+            <div class="messages" id="printmessages">
+                <?php if (!empty($messages)): ?>
+                    <ul>
+                        <?php foreach ($messages as $message): ?>
+                            <li id="sentmessage" class="<?php echo strpos($message, 'Error') == 0 ? 'success' : 'error'; ?>">
+                                <?php echo htmlspecialchars($message); ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
 
-<?php
-//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //input data into table KLASSE
-    if (isset($_POST['submit_KLASSE'])) {
-        $input_klasseKode = mysqli_real_escape_string($conn, $_POST["input_klasseKode"]);
-        $input_klassenavn = mysqli_real_escape_string($conn, $_POST["input_klassenavn"]);
-        $input_studiumkode = mysqli_real_escape_string($conn, $_POST["input_studiumkode"]);
-
-        if (!$input_klasseKode) {
-            echo "Error: KlasseKode is not filled out";
-        }
-        // Check if the klasseKode is longer than 3 character if TRUE print Error
-        if (strlen($input_klasseKode) > 3) {
-            echo "Error: Data not saved, KlasseKode only accepts a maximum length of 3 characters";
-        } else {
-            //make sure the primary key is unique
-            //Query the database with sql to check all values that matches the values of $input_klassekode. to check for duplictes.
-            $primarykeyKLASSE = "SELECT * FROM KLASSE WHERE klasseKode = '$input_klasseKode'";
-            $result = mysqli_query($conn, $primarykeyKLASSE);
-
-            if (($result->num_rows) > 0) {
-                $rowPrimaryIntegrity = $result->fetch_assoc(); //grabs the row and stores it in a associative array.
-                echo "A klasseKode with '" . $rowPrimaryIntegrity['klasseKode'] . "' already exists, duplicates of the klasseKode row are not allowed because its the primary key of the table.";
-            } else {
-                $sql_KLASSE_add = "INSERT into KLASSE VALUES ('$input_klasseKode', '$input_klassenavn', '$input_studiumkode')";
-
-                if (mysqli_query($conn, $sql_KLASSE_add)) {
-                } else {
-                    echo "Error: " . mysqli_error($conn);
-                }
-            }
-        }
-    }
-}
-?>
 </body>
 </html>
 

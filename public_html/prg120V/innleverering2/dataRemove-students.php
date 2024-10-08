@@ -12,6 +12,46 @@
 global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
+
+if (!$conn) {
+    die( $messages[] = "Database connection failed: " . mysqli_connect_error());
+}
+// Variable to store messages
+$messages = [];
+// Check if the connection is valid
+
+//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//input data into table KLASSE'
+    if (isset($_POST['delete_STUDENT'])) {
+
+        $input_brukernavn = trim(mysqli_real_escape_string($conn, $_POST["input_brukernavn"]));
+
+        //sql remove data from database
+        $sqlDelete = "DELETE FROM STUDENT WHERE brukernavn='$input_brukernavn'";
+
+        // Execute the query
+        if (mysqli_query($conn, $sqlDelete)) {
+            $messages[] = "The row '" . $input_brukernavn . "' was deleted successfully!";
+            //Update the table by running the functions again
+            $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
+            //define the fields to be displayed in an array
+            $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
+            //display data in the array untill the array is empty
+            displayData($sqlQueryData, $fields);
+
+        } else {
+            // Print the error if query execution fails
+            $messages[] = "Error: " . mysqli_error($conn);
+        }
+    }
+}
+//described in functions.php
+//sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
+$sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
+
+//define the fields to be displayed in an array
+$fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
 ?>
 
 <nav class="mainNav">
@@ -47,17 +87,7 @@ require_once 'functions.php';
                     <th>etternavn</th>
                     <th>klasseKode</th>
                 </tr>
-<?php
-//described in functions.php
-//sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
-$sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
-
-//define the fields to be displayed in an array
-$fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
-
-//display data in the array untill the array is empty
-displayData($sqlQueryData, $fields);
-?>
+                <?php displayData($sqlQueryData, $fields); //display data in the array untill the array is empty ?>
             </table>
         </div>
         <br/>
@@ -80,44 +110,21 @@ displayData($sqlQueryData, $fields);
                     ?>
                 </select>
                 <br/><br/>
-                    <input type="submit" value="Delete" id="deleteSTUDENT" name ="delete_STUDENT" <?php /* onclick="return confirm('Are you sure you want to delete this data?') */?>;"/>
+                    <input type="submit" value="Delete" id="deleteSTUDENT" name ="delete_STUDENT" onclick="return confirm('Are you sure you want to delete this data?');"/>
             </form>
+            <div class="messages" id="printmessages">
+                <?php if (!empty($messages)): ?>
+                    <ul>
+                        <?php foreach ($messages as $message): ?>
+                            <li id="sentmessage" class="<?php echo strpos($message, 'Error') == 0 ? 'success' : 'error'; ?>">
+                            <?php echo htmlspecialchars($message); ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
-<?php
-// Check if the connection is valid
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
-
-
-//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//input data into table KLASSE'
-    if (isset($_POST['delete_STUDENT'])) {
-
-        $input_brukernavn = trim(mysqli_real_escape_string($conn, $_POST["input_brukernavn"]));
-
-        //sql remove data from database
-        $sqlDelete = "DELETE FROM STUDENT WHERE brukernavn='$input_brukernavn'";
-
-        // Execute the query
-        if (mysqli_query($conn, $sqlDelete)) {
-            echo "The row '" . $input_brukernavn . "' was deleted successfully!<br>";
-            //Update the table by running the functions again
-            $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
-            //define the fields to be displayed in an array
-            $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
-            //display data in the array untill the array is empty
-            displayData($sqlQueryData, $fields);
-
-        } else {
-            // Print the error if query execution fails
-            echo "Error: " . mysqli_error($conn) . "<br>";
-        }
-    }
-}
-?>
 </body>
 </html>
