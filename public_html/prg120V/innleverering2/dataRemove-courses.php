@@ -12,6 +12,31 @@
 global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
+
+// Variable to store messages
+$messages = [];
+//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//input data into table KLASSE'
+    if (isset($_POST['delete_KLASSE'])) {
+        $input_klasseKode = trim(mysqli_real_escape_string($conn, $_POST["input_klasseKode"]));
+
+        //sql remove data from database
+        $sqlDelete = "DELETE FROM KLASSE WHERE klasseKode='$input_klasseKode'";
+
+        try {
+            if (mysqli_query($conn, $sqlDelete)) {
+                $messages[] =  "The row '" . $input_klasseKode . "' was deleted sucessfully";
+            }
+        } catch (Exception $mysqli_sql_exception) {
+            $messages[] =  " Error you can not Remove the row before you have removed the Student with the same class code in the STUDENT table";
+        }
+    }
+}
+//described in functions.php
+$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
+
+$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
 ?>
 
 <nav class="mainNav">
@@ -46,15 +71,7 @@ require_once 'functions.php';
                     <th>klassenavn</th>
                     <th>studiumKode</th>
                 </tr>
-
-<?php
-//described in functions.php
-$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
-
-$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
-
-displayData($sqlQueryData, $fields);
-?>
+                <?php displayData($sqlQueryData, $fields); // Display the data inside the table?>
             </table>
         </div>
         <br/>
@@ -77,32 +94,21 @@ if ($result->num_rows > 0)
 ?>
                 </select>
                 <br/><br/>
-                    <input type="submit" value="Delete" id="deleteKLASSE" name="delete_KLASSE" <?php /* onclick="return confirm('Are you sure you want to delete this data?') */?>;"/>
+                    <input type="submit" value="Delete" id="deleteKLASSE" name="delete_KLASSE" onclick="return confirm('Are you sure you want to delete this data?');"/>
             </form>
+             <div class="messages" id="printmessages">
+                <?php if (!empty($messages)): ?>
+                <ul>
+                    <?php foreach ($messages as $message): ?>
+                        <li id="sentmessage" class="<?php echo strpos($message, 'Error') == 0 ? 'success' : 'error'; ?>">
+                            <?php echo htmlspecialchars($message); ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
-<pre>
-</pre>
-<?php
-//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//input data into table KLASSE'
-    if (isset($_POST['delete_KLASSE'])) {
-        $input_klasseKode = trim(mysqli_real_escape_string($conn, $_POST["input_klasseKode"]));
-
-        //sql remove data from database
-        $sqlDelete = "DELETE FROM KLASSE WHERE klasseKode='$input_klasseKode'";
-
-        try {
-            if (mysqli_query($conn, $sqlDelete)) {
-                echo "The row '" . $input_klasseKode . "' was deleted sucessfully";
-            }
-        } catch (Exception $mysqli_sql_exception){
-                echo " Error you can not Remove the row before you have removed the Student with the same class code in the STUDENT table";
-        }
-    }
-}
-?>
 </body>
 </html>

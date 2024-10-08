@@ -125,10 +125,10 @@ form {
 }
 
 #sentmessage {
-    margin-top: auto;
     border-radius: 5px;
     border: 1px solid black;
     text-align: left;
+    padding: 5px;
 }
 
 #printmessages {
@@ -136,18 +136,18 @@ form {
     border-radius: 3px;
     display:flex;
     list-style-type: none;
-    padding: 0;
+    padding: 3px;
     margin-top 30px;
 }
 
 .messages li.success {
     background-color: #d4edda;
-    color: #155724;
+    background-color: #81f199;
 }
 
 .messages li.error {
     background-color: #f8d7da;
-    color: #721c24;
+    backgroud-color: #f45d70;
 }
 
 

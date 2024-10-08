@@ -1,5 +1,7 @@
 <?php
-session_start();                                   /*,TODO  MAKE IT SO THAT THE PAGES / TD REFRESHES AUTOMATICALLY + FIGURE OUT CLOSING / OPENING DB CONNECTION +AJAX + make it so that brukernavn is given automatically based on your name*/
+session_start();                                   /*,TODO  FIGURE OUT CLOSING / OPENING DB CONNECTION +AJAX +
+                                                       make it so that brukernavn is given automatically based on your name
+                                                       + DISPLAY RED TEXT IF THERE IS AN ERROR instaid of green / the background*/
 //check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
