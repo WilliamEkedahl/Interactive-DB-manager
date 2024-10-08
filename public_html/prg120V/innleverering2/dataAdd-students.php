@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Validate input
         if (empty($input_klasseKode)) {
             $messages[] = "Error: klassekode er ikke fyllt ut";
-        } elseif (strlen($input_brukernavn) > 3) {
+        } elseif (strlen($input_brukernavn) > 7) {
             $messages[] = "Error: Data not saved, brukernavn only accepts a maximum length of 3 characters";
         } else {
             // Check for primary key uniqueness

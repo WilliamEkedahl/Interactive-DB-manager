@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $messages[] = "Error: KlasseKode is not filled out";
         }
         // Check if the klasseKode is longer than 3 character if TRUE print Error
-        if (strlen($input_klasseKode) > 3) {
+        if (strlen($input_klasseKode) > 7) {
             $messages[] = "Error: Data not saved, KlasseKode only accepts a maximum length of 3 characters";
         } else {
             //make sure the primary key is unique
