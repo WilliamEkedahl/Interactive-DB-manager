@@ -80,18 +80,18 @@ $fields = ['klasseKode', 'klassenavn', 'studiumKode'];
             <form  method="POST" action="dataRemove-courses.php"  id="removeCourses" name="removeCourseForm">
                 <label for="klaseKode"><U>klasseKode</U></label> <br/>
                 <select name="input_klasseKode" id="klassekode" required>
-<?php
-//Dynamic listbox to only include the Options that exist in the KLASSE table
-$listBox_Sql = "SELECT klasseKode FROM KLASSE";
-$result = mysqli_query($conn, $listBox_Sql);
-//Options for listbox
-if ($result->num_rows > 0)
-    while ($row = $result->fetch_assoc()) {
-        echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
-    } else {
-    echo '<option value="input_klasseKode">No options available</option>';
-}
-?>
+                <?php
+                //Dynamic listbox to only include the Options that exist in the KLASSE table
+                $listBox_Sql = "SELECT klasseKode FROM KLASSE";
+                $result = mysqli_query($conn, $listBox_Sql);
+                //Options for listbox
+                if ($result->num_rows > 0)
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<option value="'. ($row['klasseKode']) .' "> ' . ($row['klasseKode']) . '</option>';
+                    } else {
+                    echo '<option value="input_klasseKode">No options available</option>';
+                }
+                ?>
                 </select>
                 <br/><br/>
                     <input type="submit" value="Delete" id="deleteKLASSE" name="delete_KLASSE" onclick="return confirm('Are you sure you want to delete this data?');"/>

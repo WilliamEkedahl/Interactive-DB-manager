@@ -13,13 +13,12 @@ global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
 
+//check if the connection is valid
 if (!$conn) {
     die( $messages[] = "Database connection failed: " . mysqli_connect_error());
 }
 // Variable to store messages
 $messages = [];
-// Check if the connection is valid
-
 //Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //input data into table KLASSE'
@@ -33,13 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute the query
         if (mysqli_query($conn, $sqlDelete)) {
             $messages[] = "The row '" . $input_brukernavn . "' was deleted successfully!";
-            //Update the table by running the functions again
-            $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
-            //define the fields to be displayed in an array
-            $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
-            //display data in the array untill the array is empty
-            displayData($sqlQueryData, $fields);
-
         } else {
             // Print the error if query execution fails
             $messages[] = "Error: " . mysqli_error($conn);
@@ -47,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 //described in functions.php
-//sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
 $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
 
 //define the fields to be displayed in an array
@@ -87,7 +78,7 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
                     <th>etternavn</th>
                     <th>klasseKode</th>
                 </tr>
-                <?php displayData($sqlQueryData, $fields); //display data in the array untill the array is empty ?>
+                <?php displayData($sqlQueryData, $fields); //display data inside the table?>
             </table>
         </div>
         <br/>
