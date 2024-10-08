@@ -56,6 +56,7 @@ function sqlquerySelectAll($conn, $from) {
 //$fields as $field - loops through the array $fields and saves each passthrough to the value $field
 
 function displayData($sqlQueryData, $fields){
+    global $messages;
     if (!is_array($sqlQueryData) || ($sqlQueryData === 0)){
         echo "<tr><td colspan='" . count($fields) . "'>No rows found</td></tr>";
     } else {
