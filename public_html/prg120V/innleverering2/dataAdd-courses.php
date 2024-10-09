@@ -21,7 +21,7 @@ $messages = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //input data into table KLASSE
     if (isset($_POST['submit_KLASSE'])) {
-        $input_klasseKode = mysqli_real_escape_string($conn, $_POST["input_klasseKode"]);
+        $input_klasseKode = mysqli_real_escape_string($conn, strtoupper ($_POST["input_klasseKode"]));
         $input_klassenavn = mysqli_real_escape_string($conn, $_POST["input_klassenavn"]);
         $input_studiumkode = mysqli_real_escape_string($conn, $_POST["input_studiumkode"]);
 
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             //make sure the primary key is unique
             //Query the database with sql to check all values that matches the values of $input_klassekode. to check for duplictes.
+
             $primarykeyKLASSE = "SELECT * FROM KLASSE WHERE klasseKode = '$input_klasseKode'";
             $result = mysqli_query($conn, $primarykeyKLASSE);
 
@@ -97,9 +98,9 @@ $fields = ['klasseKode', 'klassenavn', 'studiumKode'];
             <p><strong>Add rows into KLASSE table</strong></p>
             <form action="dataAdd-courses.php" method="POST" id="klasse-add" name="klasseform">
                 <label for="klasseKode"><u>klasseKode</u></label> <br/>
-                <input type="text" id="klasseKode" name="input_klasseKode" placeholder="IT1" required> <br/>
+                <input type="text" id="klasseKode" name="input_klasseKode" placeholder="prg120V" required> <br/>
                 <label for="klassenavn">klassenavn</label> <br/>
-                <input type="text" id="klassenavn"  name="input_klassenavn" placeholder="IT og ledelse 1. år"> <br/>
+                <input type="text" id="klassenavn"  name="input_klassenavn" placeholder="Programmering"> <br/>
                 <label for="studiumKode">studiumKode</label> <br/>
                 <input type="text" id="studiumKode" name="input_studiumkode" placeholder="ITLED"> <br/> <br/>
                 <input type ="submit" value ="Add" id ="submitKLASSE" name ="submit_KLASSE" />

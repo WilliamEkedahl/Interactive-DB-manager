@@ -106,11 +106,11 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
             <p><strong>Add rows into STUDENT table</strong></p>
             <form action="" method="POST" id="klasse-add" name="klasseform">
                 <label for="brukernavn"><u>brukernavn</u></label><br/>
-                <input type="text" id="brukernavn" name="input_brukernavn" placeholder="gb" required><br/>
+                <input type="text" id="brukernavn" name="input_brukernavn" placeholder="274640" required><br/>
                 <label for="fornavn">fornavn</label><br/>
-                <input type="text" id="fornavn" name="input_fornavn" placeholder="Geir"><br/>
+                <input type="text" id="fornavn" name="input_fornavn" placeholder="William"><br/>
                 <label for="etternavn">etternavn</label><br/>
-                <input type="text" id="etternavn" name="input_etternavn" placeholder="Bjarvin"><br/>
+                <input type="text" id="etternavn" name="input_etternavn" placeholder="Ekedahl"><br/>
                 <label for="klasseKode">klasseKode</label><br/>
                 <select name="input_klasseKode" id="klasseKode">
                     <?php

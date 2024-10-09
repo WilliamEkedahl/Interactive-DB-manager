@@ -1,6 +1,6 @@
 <?php
 session_start();                                   /*,TODO  FIGURE OUT CLOSING / OPENING DB CONNECTION +AJAX +
-                                                       make it so that brukernavn is given automatically based on your name
+                                                      + make it so that a student can be registered to many corses + make it so that brukernavn is given automatically based on your name
                                                        + DISPLAY RED TEXT IF THERE IS AN ERROR instaid of green / the background*/
 //check if the user is logged in
 if (!isset($_SESSION['username'])) {
