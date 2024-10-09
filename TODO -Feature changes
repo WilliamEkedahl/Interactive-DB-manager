@@ -1,5 +1,5 @@
 Everything is at a working stage now: 
-
+FIRST FIX THE DATABASE so a student can be registered to multiple classes
 1. Fix so that different messages give different colors Success messages = green and error messages = red currently only working for dataRemove-courses.php I don't know why lol.
 2. Convert everything to use prepared statements
 3. Make the error handling more consistent and better.
