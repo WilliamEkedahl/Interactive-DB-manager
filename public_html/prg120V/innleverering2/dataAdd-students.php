@@ -110,7 +110,7 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
                 <label for="fornavn">fornavn</label><br/>
                 <input type="text" id="fornavn" name="input_fornavn" placeholder="William"><br/>
                 <label for="etternavn">etternavn</label><br/>
-                <input type="text" id="etternavn" name="input_etternavn" placeholder="Ekedahl"><br/>
+                <input type="text" id="etternavn" name="input_etternavn" placeholder="Ekedahl"><br/>g
                 <label for="klasseKode">klasseKode</label><br/>
                 <select name="input_klasseKode" id="klasseKode">
                     <?php

@@ -21,7 +21,11 @@ $messages = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //input data into table KLASSE
     if (isset($_POST['submit_KLASSE'])) {
+
         $input_klasseKode = mysqli_real_escape_string($conn, strtoupper ($_POST["input_klasseKode"]));
+
+        $input_klasseKode = mysqli_real_escape_string($conn, $_POST["input_klasseKode"]);
+
         $input_klassenavn = mysqli_real_escape_string($conn, $_POST["input_klassenavn"]);
         $input_studiumkode = mysqli_real_escape_string($conn, $_POST["input_studiumkode"]);
 
