@@ -67,23 +67,25 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
 
 <nav class="mainNav">
     <ul id="mainNav-list">
-        <li><a href="index.php" class="<?php echo isActive('index.php'); ?>">Main Menu</a></li>
+        <li><a href="index.php" class="<?php echo isActive ('index.php');?>" >Main Menu</a></li>
         <li>
-            <a href="#" class="<?php echo dropdownIsActive('dataAdd-courses.php', 'dataAdd-students.php'); ?>">Add Data ▾</a>
+            <a href="#" class="<?php echo dropdownIsActive('dataAdd-courses.php', 'dataAdd-students.php'); ?>" >Add Data ▾</a>
             <ul class="dropdown">
-                <li><a href="dataAdd-courses.php" class="<?php echo isActive('dataAdd-courses.php'); ?>">Add Courses</a></li>
-                <li><a href="dataAdd-students.php" class="<?php echo isActive('dataAdd-students.php'); ?>">Add Students</a></li>
+                <li><a href="dataAdd-courses.php" class="<?php echo isActive ('dataAdd-courses.php');?>" >Add Courses</a></li>
+                <li><a href="dataAdd-students.php" class="<?php echo isActive ('dataAdd-students.php');?>" >Add Students</a></li>
+                <li><a href="dataAdd-register.php" class="<?php echo isActive ('dataAdd-register.php');?>" >Register for courses</a></li>
             </ul>
         </li>
         <li>
-            <a href="#" class="<?php echo dropdownIsActive('dataRemove-courses.php', 'dataRemove-students.php'); ?>">Remove Data ▾</a>
+            <a href="#" class="<?php echo dropdownIsActive('dataRemove-courses.php','dataRemove-students.php')?>" >Remove Data ▾</a>
             <ul class="dropdown">
-                <li><a href="dataRemove-courses.php" class="<?php echo isActive('dataRemove-courses.php'); ?>">Remove Courses</a></li>
-                <li><a href="dataRemove-students.php" class="<?php echo isActive('dataRemove-students.php'); ?>">Remove Students</a></li>
+                <li><a href="dataRemove-courses.php" class="<?php echo isActive ('dataRemove-courses.php'); ?>" >Remove Courses</a></li>
+                <li><a href="dataRemove-students.php" class="<?php echo isActive ('dataRemove-students.php'); ?>" >Remove Students</a></li>
+                <li><a href="dataRemove-register.php" class="<?php echo isActive ('dataRemove-register.php');?>" >Unregister for courses</a></li>
             </ul>
         </li>
-        <li><a href="showAll-Students.php" class="<?php echo isActive('showAll-Students.php'); ?>">Show All Students</a></li>
-        <li><a href="showAll-courses.php" class="<?php echo isActive('showAll-courses.php'); ?>">Show All Courses</a></li>
+        <li><a href="showAll-Students.php" class="<?php echo isActive ('showAll-Students.php'); ?>" >Show All Students</a></li>
+        <li><a href="showAll-courses.php" class="<?php echo isActive ('showAll-courses.php');?>" >Show All Courses</a></li>
     </ul>
 </nav>
 
