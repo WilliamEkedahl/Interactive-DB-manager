@@ -1,3 +1,11 @@
+<?php
+session_start();                                                                                                
+//check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -9,7 +17,6 @@
 <body>
 
 <?php
-global $conn;
 require ("includes/dbh.inc.php");
 require_once 'functions.php';
 
