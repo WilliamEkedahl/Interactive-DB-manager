@@ -1,11 +1,8 @@
 <?php
 session_start();                                   /*,TODO  FIGURE OUT CLOSING / OPENING DB CONNECTION +AJAX +
-<<<<<<< HEAD
-                                                      + make it so that a student can be registered to many corses + make it so that brukernavn is given automatically based on your name
-=======
-                                                       make it so that brukernavn is given automatically based on your name
->>>>>>> ecc07c6f407f1fa0efb1a312da2edcb2e79fee93
-                                                       + DISPLAY RED TEXT IF THERE IS AN ERROR instaid of green / the background*/
+                                                       + DISPLAY RED TEXT IF THERE IS AN ERROR instaid of green / the background
+                                                       Handle deleteing data when there is no entrys in the table gives sucess message*/
+global $conn;
 //check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -24,6 +21,7 @@ if (!isset($_SESSION['username'])) {
 <?php
 //all the required files that are used are here
 //Connect database connection file with require
+global $conn;
 require "includes/dbh.inc.php";
 //Connect functions functionality from functions file
 require_once 'functions.php';
@@ -36,6 +34,7 @@ require_once 'functions.php';
             <ul class="dropdown">
                 <li><a href="dataAdd-courses.php" class="<?php echo isActive ('dataAdd-courses.php');?>" >Add Courses</a></li>
                 <li><a href="dataAdd-students.php" class="<?php echo isActive ('dataAdd-students.php');?>" >Add Students</a></li>
+                <li><a href="dataAdd-register.php" class="<?php echo isActive ('dataAdd-register.php');?>" >Register for courses</a></li>
             </ul>
         </li>
         <li>
@@ -43,6 +42,7 @@ require_once 'functions.php';
             <ul class="dropdown">
                 <li><a href="dataRemove-courses.php" class="<?php echo isActive ('dataRemove-courses.php'); ?>" >Remove Courses</a></li>
                 <li><a href="dataRemove-students.php" class="<?php echo isActive ('dataRemove-students.php'); ?>" >Remove Students</a></li>
+                <li><a href="dataRemove-register.php" class="<?php echo isActive ('dataRemove-register.php');?>" >Unregister for courses</a></li>
             </ul>
         </li>
         <li><a href="showAll-Students.php" class="<?php echo isActive ('showAll-Students.php'); ?>" >Show All Students</a></li>
@@ -99,6 +99,31 @@ displayData($sqlQueryData, $fields);
 ?>
         </table>
         <br/>
+        </div>
+        </table>
+        <br/>
+        <div class="tabell" id="KLASSE_REGISTERED_Tabell">
+            <table>
+                <p> <strong> KLASSE_REGISTERED </strong> </p> <br/>
+                <tr>
+                    <th><u>ID</u></th>
+                    <th>brukernavn</th>
+                    <th>klasseKode</th>
+                </tr>
+                <?php
+                //described in functions.php
+                //sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
+                $sqlQueryData = sqlquerySelectAll($conn, 'KLASSE_REGISTERED');
+
+                //define the fields to be displayed in an array
+                $fields = ["ID", "brukernavn", "klasseKode"];
+
+                //display data in the array untill the array is empty
+                displayData($sqlQueryData, $fields);
+                ?>
+            </table>
+            <br/>
+            </div>
         </div>
     </div>
 </div>
