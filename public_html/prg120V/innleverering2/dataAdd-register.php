@@ -23,6 +23,12 @@ global $conn;
 require "includes/dbh.inc.php";
 //Connect functions functionality from functions file
 require_once 'functions.php';
+
+//described in functions.php
+//sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
+$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE_REGISTERED');
+//define the fields to be displayed in an array
+$fields = ["ID", "brukernavn", "klasseKode"];
 ?>
 <nav class="mainNav">
     <ul id="mainNav-list">
@@ -57,17 +63,7 @@ require_once 'functions.php';
                     <th>brukernavn</th>
                     <th>klasseKode</th>
                 </tr>
-                <?php
-                //described in functions.php
-                //sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
-                $sqlQueryData = sqlquerySelectAll($conn, 'KLASSE_REGISTERED');
-
-                //define the fields to be displayed in an array
-                $fields = ["ID", "brukernavn", "klasseKode"];
-
-                //display data in the array untill the array is empty
-                displayData($sqlQueryData, $fields);
-                ?>
+                <?php displayData($sqlQueryData, $fields); //display data in the array untill the array is empty ?>
             </table>
             <br/>
         </div>
@@ -78,5 +74,5 @@ require_once 'functions.php';
 
 <?php
 //close database connection
- //$conn->close();
+//$conn->close();
 ?>
