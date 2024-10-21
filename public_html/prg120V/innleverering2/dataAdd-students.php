@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name ="viewport" content ="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <title>Add students</title>
-    <link rel="stylesheet" href="css/stylesheet-update.css">
+    <title>Remove students</title>
+    <link rel ="stylesheet" href ="css/stylesheet-update.css">
 </head>
 <body>
 
 <?php
 global $conn;
-require("includes/dbh.inc.php");
+require ("includes/dbh.inc.php");
 require_once 'functions.php';
 
+//check if the connection is valid
+if (!$conn) {
+    die( $messages[] = "Database connection failed: " . mysqli_connect_error());
+}
 // Variable to store messages
 $messages = [];
-
-// Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
+//Using mysqli_real_escape_string to escape characters and protect against SQL INJECTION.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Input data into the STUDENT table
-    if (isset($_POST['submit_STUDENT'])) {
-        $input_brukernavn = mysqli_real_escape_string($conn, $_POST['input_brukernavn']);
-        $input_fornavn = mysqli_real_escape_string($conn, $_POST['input_fornavn']);
-        $input_etternavn = mysqli_real_escape_string($conn, $_POST['input_etternavn']);
-        $input_klasseKode = mysqli_real_escape_string($conn, $_POST['input_klasseKode']);
+//input data into table KLASSE'
+    if (isset($_POST['delete_STUDENT'])) {
 
-        // Validate input
-        if (empty($input_klasseKode)) {
-            $messages[] = "Error: klassekode er ikke fyllt ut";
-        } elseif (strlen($input_brukernavn) > 7) {
-            $messages[] = "Error: Data not saved, brukernavn only accepts a maximum length of 3 characters";
-        } else {
-            // Check for primary key uniqueness
-            $stmt_select = $conn->prepare("SELECT * FROM STUDENT WHERE brukernavn = ?");
-            if ($stmt_select) {
-                $stmt_select->bind_param("s", $input_brukernavn);
-                $stmt_select->execute();
-                $result = $stmt_select->get_result();
+        $input_brukernavn = trim(mysqli_real_escape_string($conn, $_POST["input_brukernavn"]));
 
-                if ($result->num_rows > 0) {
-                    $tablePrimaryIntegrity = $result->fetch_assoc();
-                    $messages[] = "A 'brukernavn' with '" . htmlspecialchars($tablePrimaryIntegrity['brukernavn']) . "' already exists, duplicates of the 'brukernavn' row are not allowed.";
-                } else {
-                    // Insert the new row
-                    $stmt_insert = $conn->prepare("INSERT INTO STUDENT (brukernavn, fornavn, etternavn, klasseKode) VALUES (?,?,?,?)");
-                    if ($stmt_insert) {
-                        $stmt_insert->bind_param("ssss", $input_brukernavn, $input_fornavn, $input_etternavn, $input_klasseKode);
-                        if ($stmt_insert->execute()) {
-                            $messages[] = "The row was added successfully!";
-                        }
-                        $stmt_insert->close();
-                    } else {
-                        $messages[] = "Error preparing statement for INSERT: " . $conn->error;
-                    }
-                }
-                $stmt_select->close();
+        //sql remove data from database
+        $sqlDelete = "DELETE FROM STUDENT WHERE brukernavn='$input_brukernavn'";
+
+        // Execute the query
+        if (mysqli_query($conn, $sqlDelete)) {
+            $messages[] = "The row '" . $input_brukernavn . "' was deleted successfully!";
+            // Reset the auto-increment value based on the highest existing ID
+            $sqlMaxId = "SELECT MAX(id) as max_id FROM STUDENT";
+            $resultMaxId = mysqli_query($conn, $sqlMaxId);
+            $rowMaxId = mysqli_fetch_assoc($resultMaxId);
+
+            // Calculate the next ID by adding 1 to the max ID
+            $nextId = isset($rowMaxId['max_id']) ? $rowMaxId['max_id'] + 1 : 1;
+
+            // Reset the AUTO_INCREMENT value
+            $sqlResetAutoIncrement = "ALTER TABLE STUDENT AUTO_INCREMENT = $nextId";
+            if (mysqli_query($conn, $sqlResetAutoIncrement)) {
+                $messages[] = "Auto-increment value was reset successfully!";
+            } else {
+                // Print the error if query execution fails
+                $messages[] = "Error: " . mysqli_error($conn);
             }
         }
     }
 }
-// Fetch the updated data
+//described in functions.php
 $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
-// Define the fields to be displayed in an array
-$fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
+
+//define the fields to be displayed in an array
+$fields = ["id", "brukernavn", "fornavn", "etternavn", "klasseKode"];
 ?>
 
 <nav class="mainNav">
@@ -73,7 +66,6 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
             <ul class="dropdown">
                 <li><a href="dataAdd-courses.php" class="<?php echo isActive ('dataAdd-courses.php');?>" >Add Courses</a></li>
                 <li><a href="dataAdd-students.php" class="<?php echo isActive ('dataAdd-students.php');?>" >Add Students</a></li>
-                <li><a href="dataAdd-register.php" class="<?php echo isActive ('dataAdd-register.php');?>" >Register for courses</a></li>
             </ul>
         </li>
         <li>
@@ -81,7 +73,6 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
             <ul class="dropdown">
                 <li><a href="dataRemove-courses.php" class="<?php echo isActive ('dataRemove-courses.php'); ?>" >Remove Courses</a></li>
                 <li><a href="dataRemove-students.php" class="<?php echo isActive ('dataRemove-students.php'); ?>" >Remove Students</a></li>
-                <li><a href="dataRemove-register.php" class="<?php echo isActive ('dataRemove-register.php');?>" >Unregister for courses</a></li>
             </ul>
         </li>
         <li><a href="showAll-Students.php" class="<?php echo isActive ('showAll-Students.php'); ?>" >Show All Students</a></li>
@@ -90,52 +81,48 @@ $fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
 </nav>
 
 <div class="grid-container-outer">
-    <div class="grid-container-inner">
+    <div class ="grid-container-inner">
         <div class="tabell" id="StudentTabell">
             <table>
-                <p><strong>STUDENT</strong></p><br/>
+                <p> <strong> STUDENT </strong> </p> <br/>
                 <tr>
-                    <th><u>brukernavn</u></th>
+                    <th><u>ID</u></th>
+                    <th>brukernavn</th>
                     <th>fornavn</th>
                     <th>etternavn</th>
                     <th>klasseKode</th>
                 </tr>
-                <?php displayData($sqlQueryData, $fields); // Display the data inside the table?>
+                <?php displayData($sqlQueryData, $fields); //display data inside the table?>
             </table>
         </div>
         <br/>
-        <div class="form_add-STUDENT">
-            <p><strong>Add rows into STUDENT table</strong></p>
-            <form action="" method="POST" id="klasse-add" name="klasseform">
-                <label for="brukernavn"><u>brukernavn</u></label><br/>
-                <input type="text" id="brukernavn" name="input_brukernavn" placeholder="274640" required><br/>
-                <label for="fornavn">fornavn</label><br/>
-                <input type="text" id="fornavn" name="input_fornavn" placeholder="William"><br/>
-                <label for="etternavn">etternavn</label><br/>
-                <input type="text" id="etternavn" name="input_etternavn" placeholder="Ekedahl"><br/>
-                <label for="klasseKode">klasseKode</label><br/>
-                <select name="input_klasseKode" id="klasseKode">
+        <div class="form-removeStudents">
+            <p><strong>Velg ett brukernavn for og slette en student fra tabellen</strong></p>
+            <form method="POST"  action="dataRemove-students.php"  id="removeStudents" name="removeStudentForm">
+                <label for="brukernavn"><U>brukernavn</U></label> <br/>
+                <select name="input_brukernavn" id="brukernavn" required>
                     <?php
-                    // Dynamic listbox to only include the options from the KLASSE table
-                    $listBox_Sql = "SELECT klasseKode FROM KLASSE";
+                    //Dynamic listbox to only include the Options that exist in the KLASSE table
+                    $listBox_Sql = "SELECT DISTINCT brukernavn FROM STUDENT";
                     $result = mysqli_query($conn, $listBox_Sql);
-                    if ($result->num_rows > 0) {
+                    //Options for listbox
+                    if ($result->num_rows > 0)
                         while ($row = $result->fetch_assoc()) {
-                            echo '<option value="' . ($row['klasseKode']) . '"> ' . ($row['klasseKode']) . '</option>';
-                        }
-                    } else {
-                        echo '<option value="">No options available</option>';
+                            echo '<option value="'. htmlspecialchars($row['brukernavn']) .' "> ' .htmlspecialchars($row['brukernavn']) . '</option>';
+                        } else {
+                        echo '<option value="input_brukernavn">No options available</option>';
                     }
                     ?>
-                </select><br/><br/>
-                <input type="submit" value="Add" id="submitSTUDENT" name="submit_STUDENT" />
+                </select>
+                <br/><br/>
+                    <input type="submit" value="Delete" id="deleteSTUDENT" name ="delete_STUDENT" onclick="return confirm('Are you sure you want to delete this data?');"/>
             </form>
             <div class="messages" id="printmessages">
                 <?php if (!empty($messages)): ?>
                     <ul>
                         <?php foreach ($messages as $message): ?>
                             <li id="sentmessage" class="<?php echo strpos($message, 'Error') == 0 ? 'success' : 'error'; ?>">
-                                <?php echo htmlspecialchars($message); ?>
+                            <?php echo htmlspecialchars($message); ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
