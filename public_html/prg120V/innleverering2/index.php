@@ -25,6 +25,7 @@ global $conn;
 require "includes/dbh.inc.php";
 //Connect functions functionality from functions file
 require_once 'functions.php';
+
 ?>
 <nav class="mainNav">
     <ul id="mainNav-list">
@@ -34,7 +35,6 @@ require_once 'functions.php';
             <ul class="dropdown">
                 <li><a href="dataAdd-courses.php" class="<?php echo isActive ('dataAdd-courses.php');?>" >Add Courses</a></li>
                 <li><a href="dataAdd-students.php" class="<?php echo isActive ('dataAdd-students.php');?>" >Add Students</a></li>
-                <li><a href="dataAdd-register.php" class="<?php echo isActive ('dataAdd-register.php');?>" >Register for courses</a></li>
             </ul>
         </li>
         <li>
@@ -42,7 +42,6 @@ require_once 'functions.php';
             <ul class="dropdown">
                 <li><a href="dataRemove-courses.php" class="<?php echo isActive ('dataRemove-courses.php'); ?>" >Remove Courses</a></li>
                 <li><a href="dataRemove-students.php" class="<?php echo isActive ('dataRemove-students.php'); ?>" >Remove Students</a></li>
-                <li><a href="dataRemove-register.php" class="<?php echo isActive ('dataRemove-register.php');?>" >Unregister for courses</a></li>
             </ul>
         </li>
         <li><a href="showAll-Students.php" class="<?php echo isActive ('showAll-Students.php'); ?>" >Show All Students</a></li>
@@ -66,64 +65,40 @@ require_once 'functions.php';
                     <th>klassenavn</th>
                     <th>studiumKode</th>
                 </tr>
-<?php
-//described in functions.php
-$sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
+                <?php
+                //described in functions.php
+                $sqlQueryData = sqlquerySelectAll($conn, 'KLASSE');
 
-$fields = ['klasseKode', 'klassenavn', 'studiumKode'];
+                $fields = ['klasseKode', 'klassenavn', 'studiumKode'];
 
-displayData($sqlQueryData, $fields);
-?>
-        </table>
+                displayData($sqlQueryData, $fields);
+                ?>
+            </table>
         </div>
         <br/>
         <div class="tabell" id="StudentTabell">
             <table>
                 <p> <strong> STUDENT </strong> </p> <br/>
                 <tr>
-                    <th><u>brukernavn</u></th>
-                    <th>fornavn</th>
-                    <th>etternavn</th>
-                    <th>klasseKode</th>
-                </tr>
-<?php
-//described in functions.php
-//sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
-$sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
-
-//define the fields to be displayed in an array
-$fields = ["brukernavn", "fornavn", "etternavn", "klasseKode"];
-
-//display data in the array untill the array is empty
-displayData($sqlQueryData, $fields);
-?>
-        </table>
-        <br/>
-        </div>
-        </table>
-        <br/>
-        <div class="tabell" id="KLASSE_REGISTERED_Tabell">
-            <table>
-                <p> <strong> KLASSE_REGISTERED </strong> </p> <br/>
-                <tr>
                     <th><u>ID</u></th>
                     <th>brukernavn</th>
+                    <th>fornavn</th>
+                    <th>etternavn</th>
                     <th>klasseKode</th>
                 </tr>
                 <?php
                 //described in functions.php
                 //sql query data from table student by using a function in functions.php that stores the data in an associative array, set the result to correspond to the other method.
-                $sqlQueryData = sqlquerySelectAll($conn, 'KLASSE_REGISTERED');
+                $sqlQueryData = sqlquerySelectAll($conn, 'STUDENT');
 
                 //define the fields to be displayed in an array
-                $fields = ["ID", "brukernavn", "klasseKode"];
+                $fields = ["id","brukernavn", "fornavn", "etternavn", "klasseKode"];
 
                 //display data in the array untill the array is empty
                 displayData($sqlQueryData, $fields);
                 ?>
             </table>
             <br/>
-            </div>
         </div>
     </div>
 </div>
@@ -132,5 +107,6 @@ displayData($sqlQueryData, $fields);
 
 <?php
 //close database connection
- //$conn->close();
+//$conn->close();
 ?>
+
